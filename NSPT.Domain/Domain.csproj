@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Mapster" Version="7.3.0" />
+		<PackageReference Include="Mapster.Core" Version="1.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="7.0.0" />
+		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NSPT.Common\Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dtos\LargDtos\" />
+    <Folder Include="Dtos\SmallDtos\" />
+    <Folder Include="Dtos\ResponseDto\" />
+    <Folder Include="Dtos\RequestDto\" />
+  </ItemGroup>
+	<Target Name="Mapster">
+		<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet build" />
+		<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore" />
+		<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster extension -a  &quot;$(TargetDir)$(ProjectName).dll&quot; -n iMed.Domain.Mappers -o Mappers" />
+		<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster mapper -a  &quot;$(TargetDir)$(ProjectName).dll&quot; -n iMed.Domain.Mappers -o Mappers" />
+	</Target>
+
+</Project>
